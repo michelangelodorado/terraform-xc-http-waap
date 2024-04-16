@@ -1,8 +1,8 @@
 //==========================================================================
 //Definition of the Origin, 1-origin.tf
 //Start of the TF file
-resource "volterra_origin_pool" "op-ip-internal" {
-  name                   = "op-ip-internal"
+resource "volterra_origin_pool" "op-demo-app" {
+  name                   = "op-demo-app"
   //Name of the namespace where the origin pool must be deployed
   namespace              = "m-dorado"
  
@@ -46,10 +46,10 @@ resource "volterra_app_firewall" "waap-tf" {
 //==========================================================================
 //Definition of the Load-Balancer, 2-https-lb.tf
 //Start of the TF file
-resource "volterra_http_loadbalancer" "lb-https-tf" {
-  depends_on = [volterra_origin_pool.op-ip-internal]
+resource "volterra_http_loadbalancer" "lb-demo-http-tf" {
+  depends_on = [volterra_origin_pool.op-demo-app]
   //Mandatory "Metadata"
-  name      = "lb-https-tf"
+  name      = "lb-demo-http-tf"
   //Name of the namespace where the origin pool must be deployed
   namespace = "m-dorado"
   //End of mandatory "Metadata" 
@@ -63,7 +63,7 @@ resource "volterra_http_loadbalancer" "lb-https-tf" {
 
   default_route_pools {
       pool {
-        name = "op-ip-internal"
+        name = "op-demo-app"
         namespace = "m-dorado"
       }
       weight = 1
